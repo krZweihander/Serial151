@@ -73,3 +73,21 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.ilk
+*.map
+*.pdb
+*.ncb
+Serial151/Debug/BuildLog.htm
+Serial151/Debug/mt.dep
+Serial151/Debug/Serial151.exe.embed.manifest
+Serial151/Debug/Serial151.exe.embed.manifest.res
+Serial151/Debug/Serial151.exe.intermediate.manifest
+Serial151/Debug/Serial151.res
+Serial151/Debug/vc90.idb
+Serial151/Release/BuildLog.htm
+Serial151/Release/mt.dep
+Serial151/Release/Serial151.exe.intermediate.manifest
+Serial151/Release/Serial151.res
+Serial151/Release/vc90.idb
+Serial151/Serial151.aps
+Serial151/Serial151.vcproj.Sirius.Thomas Lee.user
