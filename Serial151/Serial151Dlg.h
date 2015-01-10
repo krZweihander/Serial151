@@ -36,6 +36,8 @@ protected:
 	afx_msg void OnBnClickedbtnportopen();
 	afx_msg void OnBnClickedbtnportclose();
 	afx_msg void OnBnClickedbtntx();
+	afx_msg void OnEnKillfocusedttx1();
+	afx_msg void OnBnClickedbtnread();
 
 	CString hex(int i);
 	int dex(CString hexStr);
@@ -44,14 +46,12 @@ protected:
 	void controlEnable(bool e);
 	void process(CString instr);
 	void done(CString* hdata, int length);
-	CString sendformat(int* idata);
+	CString sendformat(int* _idata);
 	int getCS(int* idata);
 	void send(CString str);
+	void Log(const char* str);
 	
 	CSerialMFC m_Serial;
 	CSerial::EBaudrate m_eBaudrate;
 	CString m_sReadstack;
-public:
-	afx_msg void OnEnKillfocusedttx1();
-	afx_msg void OnBnClickedbtnread();
 };

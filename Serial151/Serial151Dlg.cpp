@@ -234,6 +234,7 @@ void CSerial151Dlg::process(CString instr)
 		}
 		if (hdata[0] == _T("63"))
 			done(hdata, nowreading.GetLength());
+		delete[] hdata;
 	}
 }
 
@@ -280,43 +281,68 @@ void CSerial151Dlg::done(CString* hdata, int length)
 	case 2:
 		break;
 	}
+	delete[] idata;
 }
 
-CString CSerial151Dlg::sendformat(int* idata)
+CString CSerial151Dlg::sendformat(int* _idata)
 {
+	int* idata = new int[19];
+	for (int i = 0; i <= 17; i++)
+		idata[i] = _idata[i];
+	Log("c");
 	idata[18] = getCS(idata);
+	Log("g");
 	CString* hdata = new CString[20];
+	Log("h");
 	for (int i = 0; i <= 18; i++)
 	{
 		hdata[i] = hex(idata[i]);
 		hdata[i] = _T("00") + hdata[i];
 		hdata[i] = hdata[i].Right(2);
+		Log("f");
 	}
-	hdata[19] = _T("*;");
+	Log("i");
+	hdata[19] = L"*;";
+	Log("j");
 	
 	CString out = _T("");
+	Log("k");
 	for (int i = 0; i <= 19; i++)
 	{
 		out += hdata[i];
+		Log("j");
 	}
+	Log("l");
+	
+	delete[] idata;
+	delete[] hdata;
 
 	return out;
 }
 
 int CSerial151Dlg::getCS(int* idata)
 {
+	Log("d");
 	int sum = 0;
 	for (int i = 0; i <= 17; i++)
 	{
 		sum += idata[i];
+		Log("e");
 	}
+	Log("f");
+	//CString str;
+	//str.Format(_T("%d"), sum);
+	//SetDlgItemText(IDC_edtTx1, str);
 	return sum;
 }
 
 void CSerial151Dlg::send(CString str)
 {
+	Log("m");
 	char* ss = LPSTR(LPCTSTR(str));
+	Log("n");
 	m_Serial.Write(ss, str.GetLength() * 2);
+	Log("o");
 }
 
 void CSerial151Dlg::OnBnClickedbtnportopen()
@@ -373,6 +399,7 @@ void CSerial151Dlg::OnBnClickedbtntx()
 	idata[7] = _ttoi(str);
 
 	send(sendformat(idata));
+	delete[] idata;
 }
 void CSerial151Dlg::OnEnKillfocusedttx1()
 {
@@ -389,10 +416,9 @@ void CSerial151Dlg::OnEnKillfocusedttx1()
 
 void CSerial151Dlg::OnBnClickedbtnread()
 {
+	Log("start\r\n");
+	Log("a");
 	if (!m_Serial.IsOpen()) return;
-
-	CString str;
-	GetDlgItemText(IDC_edtTx1, str);
 	
 	int* idata = new int[18];
 	for (int i = 0; i <= 17; i++)
@@ -403,6 +429,20 @@ void CSerial151Dlg::OnBnClickedbtnread()
 	idata[3] = 1;
 	idata[4] = 1;
 	idata[5] = 0;
+	
+	Log("b");
 
 	send(sendformat(idata));
+	Log("\r\nend\r\n");
+	delete[] idata;
+}
+
+void CSerial151Dlg::Log(const char* str)
+{
+	CString in;
+	in.Format(_T("%s"), str);
+	CString s;
+	GetDlgItemText(IDC_edtConsole, s);
+	s += str;
+	SetDlgItemText(IDC_edtConsole, s);
 }
